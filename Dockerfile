@@ -4,7 +4,7 @@ RUN apt-get clean \
     && apt-get -y update
 
 RUN apt-get -y install \
-    python3-dev
+    python3
 
 WORKDIR /app
 
