@@ -2,3 +2,8 @@
 .git
 README.md
 LICENSE.txt
+.gitignore
+*/.vs
+.vs
+*/.vscode
+.vscode
