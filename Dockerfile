@@ -26,4 +26,4 @@ COPY templates /app/templates
 EXPOSE 8000
 EXPOSE 6379
 
-CMD [ "python3", "app.py" ]
+CMD start.sh
