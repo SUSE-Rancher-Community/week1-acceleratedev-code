@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: redis-mono
+  name: redis-mono
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis-mono
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: redis-mono
+    spec:
+      containers:
+      - image: jdbohrman/week1acceleratedevcode:latest
+        name: redis-mono
+        resources: {}
+status: {}
