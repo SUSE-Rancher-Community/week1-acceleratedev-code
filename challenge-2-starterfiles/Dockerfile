@@ -8,6 +8,10 @@ RUN apt-get -y install \
 
 WORKDIR /app
 
+RUN mkdir -p /app/redis/
+
+COPY 6379.conf /app/redis/6379.conf
+
 COPY requirements.txt /app/requirements.txt
 RUN pip3 install -r requirements.txt
 
