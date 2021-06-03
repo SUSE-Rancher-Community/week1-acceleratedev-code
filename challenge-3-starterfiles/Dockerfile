@@ -1,4 +1,4 @@
-FROM redis:6.2
+FROM python:3
 
 RUN apt-get clean \
     && apt-get -y update
@@ -11,12 +11,15 @@ WORKDIR /app
 COPY requirements.txt /app/requirements.txt
 RUN pip3 install -r requirements.txt
 
-COPY app.py /app/app.py
+COPY database /app/database
+COPY handlers /app/handlers
 COPY templates /app/templates
+COPY app.py /app/app.py
+COPY schema.sql /app/schema.sql
 
-COPY start.sh /app/start.sh
-RUN chmod 755 start.sh
+RUN flask init-db
 
-EXPOSE 8000
+EXPOSE 5000
 
-ENTRYPOINT [ "/app/start.sh" ]
+CMD [ "python3", "app.py" ]
+                             

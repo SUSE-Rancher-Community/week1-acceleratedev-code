@@ -1,31 +1,24 @@
-from flask import Flask, redirect, render_template, request, jsonify
+from flask import Flask
 
 import os
 
-import redis
 
-app = Flask(__name__)
+app = Flask(__name__, instance_relative_config=True)
+app.config.from_mapping(
+    DATABASE=os.path.join(app.instance_path, "shoppinglist.sqlite")
+)
 
-redisdb = redis.Redis(host='172.17.0.2', port=6379, db=0)
+# ensure the instance folder exists
+try:
+	os.makedirs(app.instance_path)
+except OSError:
+	pass
 
-@app.route('/')
-def index():
-	shoppinglist = redisdb.lrange("list", 0, -1)
-	return render_template('index.html', shoppinglist_formatted=list(shoppinglist))
+from database.database import init_app
+init_app(app)
 
-@app.route('/addentry', methods=['POST'])
-def add_value():
-	value = request.form['value']
-	print("Received entry " + value + ", adding to shopping list...")
-	redisdb.rpush("list", value)
-	return redirect("/", code=302)
-
-@app.route('/removeentry', methods=['POST'])
-def remove_value():
-	value = request.form['value']
-	print("Received entry " + value + ", removing from shopping list...")
-	redisdb.lrem("list", 0, value)
-	return redirect("/", code=302)
+from handlers.routes import configure_routes
+configure_routes(app)
 
 if __name__ == '__main__':
-	app.run(host="0.0.0.0", port=8000)
+    app.run(host="0.0.0.0", port=5000)
