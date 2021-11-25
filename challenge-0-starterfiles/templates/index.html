@@ -1,0 +1,23 @@
+<html>
+    <head>
+        <title>Today's Shopping List</title>
+    </head>
+    <body>
+        <h1>Today's Shopping List</h1>
+        <p>The follwing items needs to be shopped:</p>
+        <p>
+        	<form method="POST" action="/addentry">
+        		Add item <input type="text" name="value" placeholder="myvalue" /> <input type="submit" value="Add" /> to shopping list! 
+        	</form>
+        	<form method="POST" action="/removeentry">
+        		Remove item <input type="text" name="value" placeholder="myvalue" /> <input type="submit" value="Remove" /> from shopping list!
+        </p>
+        <p>Currently the list contains the following:</p>
+        <ul>
+        	{% for entry in shoppinglist_formatted %}
+        	<li>{{ entry }}</li>
+        	{% endfor %}
+        </ul>
+
+    </body>
+</html>
